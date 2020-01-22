@@ -1,0 +1,2 @@
+include ':app', ':superadapter-core'
+rootProject.name='SuperAdapter'
