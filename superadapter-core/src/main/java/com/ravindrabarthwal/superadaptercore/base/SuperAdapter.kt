@@ -2,6 +2,9 @@ package com.ravindrabarthwal.superadaptercore.base
 
 import android.content.Context
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ravindrabarthwal.superadaptercore.SuperViewHolderFactory
 import com.ravindrabarthwal.superadaptercore.item.SuperItem
@@ -12,7 +15,17 @@ import com.ravindrabarthwal.superadaptercore.item.SuperItem
  * @param T: [SuperItem]
  * @param VH: [SuperViewHolder]<[T]>
  */
-abstract class SuperAdapter<T: SuperItem, VH: SuperViewHolder<T>>: RecyclerView.Adapter<VH>() {
+abstract class SuperAdapter<T: SuperItem, VH: SuperViewHolder<T>>:
+    ListAdapter<T, VH>(object: DiffUtil.ItemCallback<T>() {
+        override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
+            return oldItem.isSame(newItem)
+        }
+
+        override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
+            return oldItem.hasSameContents(newItem)
+        }
+
+    }) {
     abstract val context: Context
     abstract val superItems: MutableList<T>
     abstract val plugins: List<SuperPlugin>
@@ -43,15 +56,6 @@ abstract class SuperAdapter<T: SuperItem, VH: SuperViewHolder<T>>: RecyclerView.
         return p as T
     }
 
-    fun setItem(items: List<T>) {
-        this.superItems.clear()
-        this.superItems.addAll(items)
-        this.notifyDataSetChanged()
-    }
-
-    fun updateItems(items: List<T>) {
-        // TODO: Update items here. Must be a logic
-    }
 
     /**
      * Returns an item at a specified position
@@ -60,19 +64,15 @@ abstract class SuperAdapter<T: SuperItem, VH: SuperViewHolder<T>>: RecyclerView.
      * @return
      */
     fun getItemAt(position: Int): T {
-        return superItems[position]
+        return getItem(position)
     }
 
     override fun getItemViewType(position: Int): Int {
-        return getItemAt(position).viewType()
+        return getItem(position).viewType()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return superViewHolderFactory.create(parent, viewType)
-    }
-
-    override fun getItemCount(): Int {
-        return superItems.size
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
@@ -82,5 +82,10 @@ abstract class SuperAdapter<T: SuperItem, VH: SuperViewHolder<T>>: RecyclerView.
     override fun onViewRecycled(holder: VH) {
         super.onViewRecycled(holder)
         holder.recycled(this)
+    }
+
+    override fun onViewDetachedFromWindow(holder: VH) {
+        super.onViewDetachedFromWindow(holder)
+        holder.detached(this)
     }
 }
