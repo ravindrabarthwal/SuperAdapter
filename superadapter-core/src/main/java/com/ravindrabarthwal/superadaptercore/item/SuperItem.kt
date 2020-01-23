@@ -7,15 +7,9 @@ interface SuperItem {
         return itemProperties.viewType()
     }
 
-    fun spanCount(): Int {
-        return 1
-    }
+    fun spanCount(): Int
 
-    fun isSame(newItem: SuperItem): Boolean {
-        return false
-    }
+    fun isSame(newItem: SuperItem): Boolean
 
-    fun hasSameContents(newItem: SuperItem): Boolean {
-        return false
-    }
+    fun hasSameContents(newItem: SuperItem): Boolean
 }

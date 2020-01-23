@@ -1,4 +1,4 @@
-package com.ravindrabarthwal.superadapter.lib.implementations.plugins
+package com.ravindrabarthwal.superadaptercore.plugins
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager

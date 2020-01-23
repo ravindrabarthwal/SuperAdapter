@@ -16,7 +16,7 @@ def getArtificatId = { ->
 
 publishing {
     publications {
-        gpr(MavenPublication) {
+        superAdapterCore(MavenPublication) {
             groupId 'com.ravindrabarthwal'
             artifactId getArtificatId()
             version getVersionName()
