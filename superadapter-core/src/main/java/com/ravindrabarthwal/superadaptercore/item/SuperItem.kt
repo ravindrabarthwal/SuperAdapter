@@ -10,4 +10,12 @@ interface SuperItem {
     fun spanCount(): Int {
         return 1
     }
+
+    fun isSame(newItem: SuperItem): Boolean {
+        return false
+    }
+
+    fun hasSameContents(newItem: SuperItem): Boolean {
+        return false
+    }
 }

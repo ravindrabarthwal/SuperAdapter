@@ -12,4 +12,8 @@ class GenericAdapter(
         override val plugins: List<SuperPlugin>,
         override val superItems: MutableList<SuperItem>,
         override val superViewHolderFactory: SuperViewHolderFactory
-) : SuperAdapter<SuperItem, SuperViewHolder<SuperItem>>()
+) : SuperAdapter<SuperItem, SuperViewHolder<SuperItem>>() {
+        init {
+                submitList(superItems)
+        }
+}

@@ -2,6 +2,39 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
+
+def GITHUB_ID = System.getenv("GITHUB_ID")
+def GITHUB_TOKEN = System.getenv("GITHUB_PACKAGE_PERSONAL_TOKEN")
+def getVersionName = { ->
+    return "0.0.1-alpha"
+}
+
+def getArtificatId = { ->
+    return "superadapter-core"
+}
+
+publishing {
+    publications {
+        gpr(MavenPublication) {
+            groupId 'com.ravindrabarthwal'
+            artifactId getArtificatId()
+            version getVersionName()
+            artifact("$buildDir/outputs/aar/${getArtificatId()}-release.aar")
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/$GITHUB_ID/SuperAdapter")
+            credentials {
+                username = GITHUB_ID
+                password = GITHUB_TOKEN
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion 29

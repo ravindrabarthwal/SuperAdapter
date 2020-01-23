@@ -2,13 +2,10 @@ package com.ravindrabarthwal.superadapter
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.ravindrabarthwal.superadapter.lib.implementations.GenericAdapter
 import com.ravindrabarthwal.superadapter.lib.implementations.GenericViewHolderFactory
-import com.ravindrabarthwal.superadapter.lib.implementations.items.ExoPlayerItem
 import com.ravindrabarthwal.superadapter.lib.implementations.items.ImageItem
 import com.ravindrabarthwal.superadapter.lib.implementations.items.TextItem
-import com.ravindrabarthwal.superadapter.lib.implementations.plugins.ExoPlayerPlugin
 import com.ravindrabarthwal.superadapter.lib.implementations.plugins.GridLayoutManagerPlugin
 import com.ravindrabarthwal.superadapter.lib.implementations.plugins.LinearLayoutManagerPlugin
 import com.ravindrabarthwal.superadaptercore.item.SuperItem
@@ -29,10 +26,10 @@ class MainActivity : AppCompatActivity() {
 //        val rvH = HorizontalRecyclerViewItem(adapter = rvHA)
         val superItems = mutableListOf<SuperItem>()
         for(i in 0..10) {
-            superItems.add(if(i%2 ==0) ImageItem() else ImageItem(2))
+            superItems.add(TextItem())
         }
         val adapter = GenericAdapter(this,
-            listOf(GridLayoutManagerPlugin()),
+            listOf(LinearLayoutManagerPlugin()),
             superItems, GenericViewHolderFactory())
         adapter.applyPlugins(rv)
         rv.adapter = adapter
