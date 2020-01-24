@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ravindrabarthwal.superadapter.lib.implementations.GenericAdapter
 import com.ravindrabarthwal.superadapter.lib.implementations.GenericViewHolderFactory
 import com.ravindrabarthwal.superadapter.lib.implementations.items.TextItem
-import com.ravindrabarthwal.superadaptercore.plugins.LinearLayoutManagerPlugin
+import com.ravindrabarthwal.superadaptercore.plugins.layoutmanagers.LinearLayoutManagerPlugin
 import com.ravindrabarthwal.superadaptercore.item.SuperItem
 import kotlinx.android.synthetic.main.activity_main.*
 

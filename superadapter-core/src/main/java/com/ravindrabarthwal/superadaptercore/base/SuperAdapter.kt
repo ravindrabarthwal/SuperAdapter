@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ravindrabarthwal.superadaptercore.SuperViewHolderFactory
 import com.ravindrabarthwal.superadaptercore.item.SuperItem
+import java.lang.IllegalArgumentException
 
 /**
  * Abstract Adapter class for [RecyclerView]
@@ -56,6 +57,12 @@ abstract class SuperAdapter<T: SuperItem, VH: SuperViewHolder<T>>:
         return p as T
     }
 
+    @Throws(IllegalArgumentException::class)
+    fun getLayoutManager(): RecyclerView.LayoutManager {
+        val plugin = findPlugin<LayoutManagerPlugin>()
+            ?: throw IllegalArgumentException("No LayoutManagerPlugin found.")
+        return plugin.getLayoutManager()
+    }
 
     /**
      * Returns an item at a specified position
