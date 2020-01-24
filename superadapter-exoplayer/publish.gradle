@@ -1,0 +1,37 @@
+apply plugin: 'com.jfrog.bintray'
+
+group 'com.ravindrabarthwal.superadapter'
+version '0.0.1-alpha1'
+
+project.ext {
+    mavGitUrl = 'https://github.com/ravindrabarthwal/SuperAdapter.git'
+    mavProjectName = 'superadapter-exoplayer'
+    mavLibraryLicenses = ["Apache-2.0":'http://www.apache.org/licenses/LICENSE-2.0.txt']
+    mavLibraryDescription = "ExoPlayer Plugin for SuperAdapter."
+    mavPublishToMavenLocal = true
+    mavSiteUrl = 'https://github.com/ravindrabarthwal/SuperAdapter'
+}
+
+bintray {
+    user = System.getenv("BINTRAY_ID")
+    key = System.getenv("BINTRAY_API_KEY")
+    publications = ['Production']
+    configurations = ['archives']
+    override = true
+    pkg {
+        repo = 'com.ravindrabarthwal.superadapter'
+        name = 'superadapter-core'
+        description = "A steroid version of RecyclerView's Adapter that can be configured by Plugins."
+        publicDownloadNumbers = true
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/ravindrabarthwal/SuperAdapter.git'
+        userOrg = "barthwal"
+        version {
+            name = this.version
+            desc = "Version ${this.version}"
+            released = new Date()
+            vcsTag = this.version
+        }
+    }
+}
+apply from: 'https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle'

@@ -4,10 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ravindrabarthwal.superadapter.lib.implementations.GenericAdapter
 import com.ravindrabarthwal.superadapter.lib.implementations.GenericViewHolderFactory
-import com.ravindrabarthwal.superadapter.lib.implementations.items.ImageItem
 import com.ravindrabarthwal.superadapter.lib.implementations.items.TextItem
-import com.ravindrabarthwal.superadapter.lib.implementations.plugins.GridLayoutManagerPlugin
-import com.ravindrabarthwal.superadapter.lib.implementations.plugins.LinearLayoutManagerPlugin
+import com.ravindrabarthwal.superadaptercore.plugins.LinearLayoutManagerPlugin
 import com.ravindrabarthwal.superadaptercore.item.SuperItem
 import kotlinx.android.synthetic.main.activity_main.*
 

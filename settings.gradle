@@ -1,2 +1,2 @@
-include ':app', ':superadapter-core'
+include ':app', ':superadapter-core', ':superadapter-exoplayer'
 rootProject.name='SuperAdapter'
