@@ -2,6 +2,7 @@ package com.ravindrabarthwal.superadapter_exoplayer
 
 import android.content.Context
 import android.graphics.Color
+import androidx.lifecycle.Lifecycle
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -15,10 +16,18 @@ class ExoPlayerPlugin(
 ) : SuperPlugin {
 
     private val exoPlaybacks: MutableList<ExoPlayerPlayback> = mutableListOf()
-    private var isAppOnBackground: Boolean = false
+    var isAppOnBackground: Boolean = false
 
     override fun apply(superAdapter: SuperAdapter<*, *>) {
 
+    }
+
+    override fun recycle(superAdapter: SuperAdapter<*, *>) {
+        super.recycle(superAdapter)
+        exoPlaybacks.forEach {
+            it.release()
+        }
+        exoPlaybacks.clear()
     }
 
     fun release(playerView: PlayerView) {
@@ -39,6 +48,9 @@ class ExoPlayerPlugin(
         onPlaybackStateChange: (Boolean, Int) -> Unit,
         onReleaseCallback: () -> Unit
     ): Player? {
+
+        if(isAppOnBackground) return null
+
         exoPlaybacks.forEach {
             if (it.playbackId == playbackId) return null
         }
@@ -75,6 +87,7 @@ class ExoPlayerPlugin(
             player.release()
             playerView.player?.release()
             playerView.player = null
+            player.removeListener(playerStateListener)
             onReleaseCallback()
         }
 
