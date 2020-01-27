@@ -2,7 +2,6 @@ package com.ravindrabarthwal.superadaptercore.base
 
 import android.content.Context
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -79,20 +78,26 @@ abstract class SuperAdapter<T: SuperItem, VH: SuperViewHolder<T>>:
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        return superViewHolderFactory.create(parent, viewType)
+        return superViewHolderFactory.create(parent, viewType, this)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(getItemAt(position), this)
+        holder.bind(getItemAt(position))
     }
 
     override fun onViewRecycled(holder: VH) {
         super.onViewRecycled(holder)
-        holder.recycled(this)
+        holder.recycled()
     }
 
     override fun onViewDetachedFromWindow(holder: VH) {
         super.onViewDetachedFromWindow(holder)
-        holder.detached(this)
+        holder.detached()
+    }
+
+    open fun recycle() {
+        plugins.forEach {
+            it.recycle(this)
+        }
     }
 }

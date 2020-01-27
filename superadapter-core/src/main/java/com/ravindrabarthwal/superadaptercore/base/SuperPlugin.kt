@@ -1,9 +1,12 @@
 package com.ravindrabarthwal.superadaptercore.base
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.ravindrabarthwal.superadaptercore.item.SuperItem
 
 interface SuperPlugin {
     fun apply(superAdapter: SuperAdapter<*, *>)
+    fun recycle(superAdapter: SuperAdapter<*, *>) {}
 }
 
 /**
@@ -24,5 +27,5 @@ interface LayoutManagerPlugin: SuperPlugin {
  * All plugins that handles the click listener must implement this plugin.
  */
 interface ClickListenerPlugin: SuperPlugin {
-
+    fun<T: SuperItem> onClick(view: View, position: Int, model: T): Boolean
 }

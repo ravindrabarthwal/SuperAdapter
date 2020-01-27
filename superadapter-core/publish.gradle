@@ -1,7 +1,7 @@
 apply plugin: 'com.jfrog.bintray'
 
 group 'com.ravindrabarthwal.superadapter'
-version '0.0.1-alpha3'
+version '0.0.1-alpha4'
 
 project.ext {
     mavGitUrl = 'https://github.com/ravindrabarthwal/SuperAdapter.git'
