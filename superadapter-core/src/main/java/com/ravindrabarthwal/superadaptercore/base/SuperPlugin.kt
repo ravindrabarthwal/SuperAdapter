@@ -21,6 +21,11 @@ interface LayoutManagerPlugin: SuperPlugin {
         if (_layoutManager == null) throw IllegalAccessError("LayoutManager is not created yet. Call superAdapter.apply(RecyclerView) before accessing this method.")
         return _layoutManager!!
     }
+
+    override fun recycle(superAdapter: SuperAdapter<*, *>) {
+        super.recycle(superAdapter)
+        superAdapter.recyclerView?.layoutManager = null
+    }
 }
 
 /**
