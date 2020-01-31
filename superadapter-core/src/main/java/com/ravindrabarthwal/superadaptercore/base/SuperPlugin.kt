@@ -32,5 +32,5 @@ interface LayoutManagerPlugin: SuperPlugin {
  * All plugins that handles the click listener must implement this plugin.
  */
 interface ClickListenerPlugin: SuperPlugin {
-    fun<T: SuperItem> onClick(view: View, position: Int, model: T): Boolean
+    fun<T: SuperItem> onClick(view: View, position: Int, model: T, superAdapter: SuperAdapter<*, *>): Boolean
 }
