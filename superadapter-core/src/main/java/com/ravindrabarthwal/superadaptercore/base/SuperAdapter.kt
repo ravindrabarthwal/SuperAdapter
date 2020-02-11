@@ -10,10 +10,7 @@ import com.ravindrabarthwal.superadaptercore.item.SuperItem
 import java.lang.IllegalArgumentException
 
 /**
- * Abstract Adapter class for [RecyclerView]
  *
- * @param T: [SuperItem]
- * @param VH: [SuperViewHolder]<[T]>
  */
 abstract class SuperAdapter<T: SuperItem, VH: SuperViewHolder<T>>:
     ListAdapter<T, VH>(object: DiffUtil.ItemCallback<T>() {
