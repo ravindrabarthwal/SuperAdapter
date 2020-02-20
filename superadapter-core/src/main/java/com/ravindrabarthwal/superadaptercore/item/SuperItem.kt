@@ -3,9 +3,7 @@ package com.ravindrabarthwal.superadaptercore.item
 interface SuperItem {
     val itemProperties: SuperItemProperties
 
-    fun viewType(): Int {
-        return itemProperties.viewType()
-    }
+    fun viewType(): Int
 
     fun spanCount(): Int
 

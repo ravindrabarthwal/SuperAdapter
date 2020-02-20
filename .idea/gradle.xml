@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/superadapter-core" />
+            <option value="$PROJECT_DIR$/superadapter-exoplayer" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
