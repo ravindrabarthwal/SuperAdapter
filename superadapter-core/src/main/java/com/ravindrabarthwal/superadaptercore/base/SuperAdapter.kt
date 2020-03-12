@@ -96,5 +96,6 @@ abstract class SuperAdapter<T: SuperItem, VH: SuperViewHolder<T>>:
         plugins.forEach {
             it.recycle(this)
         }
+        recyclerView = null
     }
 }
