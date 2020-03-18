@@ -121,8 +121,8 @@ class ExoPlayerPlugin(
                 val player = createPlayer(playerView.context)
                 player.playWhenReady = true
                 playerView.player = player
-                playerView.setShutterBackgroundColor(Color.TRANSPARENT)
-                player.repeatMode =  Player.REPEAT_MODE_ONE
+//                playerView.setShutterBackgroundColor(Color.TRANSPARENT)
+//                player.repeatMode =  Player.REPEAT_MODE_ONE
 
                 // Add Listener
                 val listener = createListener(onPlaybackStateChange)
