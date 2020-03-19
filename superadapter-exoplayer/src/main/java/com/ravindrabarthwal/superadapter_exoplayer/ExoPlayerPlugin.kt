@@ -30,6 +30,8 @@ class ExoPlayerPlugin(
             it.release()
         }
         exoPlaybacks.clear()
+        exoPlayers.forEach { it.release() }
+        exoPlayers.clear()
     }
 
     fun reset(playerView: PlayerView) {
