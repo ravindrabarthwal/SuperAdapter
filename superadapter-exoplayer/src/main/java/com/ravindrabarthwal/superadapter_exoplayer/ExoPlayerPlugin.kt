@@ -16,6 +16,8 @@ class ExoPlayerPlugin(
 ) : SuperPlugin {
 
     private val exoPlaybacks: MutableList<ExoPlayerPlayback> = mutableListOf()
+    private val exoPlayers: MutableList<ExoPlayer> = mutableListOf()
+
     var isAppOnBackground: Boolean = false
 
     override fun apply(superAdapter: SuperAdapter<*, *>) {
@@ -30,13 +32,36 @@ class ExoPlayerPlugin(
         exoPlaybacks.clear()
     }
 
-    fun release(playerView: PlayerView) {
+    fun reset(playerView: PlayerView) {
         playerView.player?.let {
             exoPlaybacks.find { e -> e.player == it }?.let {
                 val index = exoPlaybacks.indexOf(it)
-                if (index > -1) exoPlaybacks.removeAt(index).release()
+                if (index > -1) {
+                    val playback = exoPlaybacks.removeAt(index)
+                    recycleExoPlayback(playback)
+                }
             }
         }
+    }
+
+    private fun recycleExoPlayback(playback: ExoPlayerPlayback) {
+        playback.reset()
+        if(exoPlayers.indexOf(playback.player) == -1) {
+            exoPlayers.add(playback.player)
+        }
+    }
+
+    private fun getIdlePlayer(): ExoPlayer? {
+        var player: ExoPlayer? = null
+        exoPlayers.forEach {
+            if(!it.isPlaying && !it.isLoading) {
+                player = it
+            }
+        }
+        if(player != null) {
+            exoPlayers.remove(player!!)
+        }
+        return player
     }
 
     fun play(
@@ -56,10 +81,11 @@ class ExoPlayerPlugin(
         }
 
         if (exoPlaybacks.size == maxSimultaneousConnections) {
-            exoPlaybacks.removeAt(0).release()
+            recycleExoPlayback(exoPlaybacks.removeAt(0))
         }
 
         val playback = ExoPlayerPlayback.create(
+            getIdlePlayer(),
             playbackId, position, fileName,
             link, playerView,
             mediaResolver,
@@ -83,12 +109,16 @@ class ExoPlayerPlugin(
         val onReleaseCallback: () -> Unit
     ) {
 
-        fun release() {
-            player.release()
-            playerView.player?.release()
+        fun reset() {
             playerView.player = null
             player.removeListener(playerStateListener)
+            player.stop()
             onReleaseCallback()
+        }
+
+        fun release() {
+            reset()
+            player.release()
         }
 
 
@@ -106,6 +136,7 @@ class ExoPlayerPlugin(
             }
 
             fun create(
+                player: ExoPlayer?,
                 playbackId: Any,
                 position: Int,
                 fileName: String,
@@ -118,8 +149,7 @@ class ExoPlayerPlugin(
             ): ExoPlayerPlayback? {
 
                 // Make Player and Set properties
-                val player = createPlayer(playerView.context)
-                player.playWhenReady = true
+                val player = player ?: createPlayer(playerView.context)
                 playerView.player = player
 //                playerView.setShutterBackgroundColor(Color.TRANSPARENT)
 //                player.repeatMode =  Player.REPEAT_MODE_ONE
@@ -130,6 +160,7 @@ class ExoPlayerPlugin(
 
                 // Resolve Media
                 mediaResolver.resolveMedia(playerView.context, fileName, link, player, shouldPlayMedia)
+                player.playWhenReady = true
 
                 return ExoPlayerPlayback(
                     playbackId, position, playerView, player, playerStateListener = listener,
